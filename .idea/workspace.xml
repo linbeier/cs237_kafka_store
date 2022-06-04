@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="577e3d02-c7f8-4a8c-a385-a207c5bbb858" name="Changes" comment="" />
+    <list default="true" id="577e3d02-c7f8-4a8c-a385-a207c5bbb858" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cs237/kafkajava/controller/KafkaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cs237/kafkajava/controller/KafkaController.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -55,7 +58,8 @@
     &quot;project.structure.last.edited&quot;: &quot;Problems&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;MavenSettings&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;MavenSettings&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;5cc357acf8555b32a569b26470bbfacf&quot;
   }
 }</component>
   <component name="RecentsManager">
@@ -126,7 +130,10 @@
       <workItem from="1653329242577" duration="11372000" />
       <workItem from="1653375049692" duration="74000" />
       <workItem from="1653375127973" duration="76000" />
-      <workItem from="1653375217476" duration="7274000" />
+      <workItem from="1653375217476" duration="8788000" />
+      <workItem from="1653500156598" duration="2094000" />
+      <workItem from="1654046224877" duration="670000" />
+      <workItem from="1654378851854" duration="2678000" />
     </task>
     <servers />
   </component>
