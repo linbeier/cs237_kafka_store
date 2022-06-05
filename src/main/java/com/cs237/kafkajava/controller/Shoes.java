@@ -1,5 +1,6 @@
 package com.cs237.kafkajava.controller;
 
+import com.google.gson.Gson;
 import com.opencsv.bean.CsvBindByName;
 import org.apache.kafka.common.protocol.types.Field;
 
@@ -70,4 +71,5 @@ public class Shoes {
                 return id + "," + brand + "," + categories + "," + colors + "," + image_url + "," + price + "," + quantity
                         + "," + geo_lat + "," + geo_long;
         }
+
 }

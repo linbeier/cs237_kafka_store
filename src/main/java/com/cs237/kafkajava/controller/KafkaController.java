@@ -2,6 +2,7 @@ package com.cs237.kafkajava.controller;
 
 
 import com.cs237.kafkajava.consumer.MyTopicConsumer;
+import com.google.gson.Gson;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -60,7 +61,7 @@ public class KafkaController {
         @Override
         public void run() {
             if(Shoes_index >= Grocery_map.size())return;
-            template.send((String) Grocery_map.get(Shoes_index).get("colors"), Grocery_map.get(Shoes_index).toString());
+            template.send((String) Grocery_map.get(Shoes_index).get("colors"), new Gson().toJson(Grocery_map.get(Shoes_index)));
             System.out.println(Grocery_map.get(Shoes_index).get("colors") + Grocery_map.get(Shoes_index).toString());
             Shoes_index++;
         }
