@@ -48,13 +48,6 @@ public class KafkaController {
     }
 
 
-    @GetMapping("/kafka/produce")
-    public void produce(@RequestParam HashMap<String, String> message) {
-        //control param to topic, Map<String, String>
-
-        template.send(message.get("category"), message.toString());
-    }
-
     Timer timer = new Timer();
 
     class Task extends TimerTask {
@@ -90,9 +83,19 @@ public class KafkaController {
         return myTopicConsumer.getWhite_messages();
     }
 
+    @GetMapping("/kafka/white_recent")
+    public Queue<String> getWhiteQueue(){
+        return myTopicConsumer.getWhite_queue();
+    }
+
     @GetMapping("/kafka/black_messages")
     public List<String> getBlackMessages() {
         return myTopicConsumer.getBlack_messages();
+    }
+
+    @GetMapping("/kafka/black_recent")
+    public Queue<String> getBlackQueue(){
+        return myTopicConsumer.getBlack_queue();
     }
 
 }
