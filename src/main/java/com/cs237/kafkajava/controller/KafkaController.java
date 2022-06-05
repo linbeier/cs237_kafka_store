@@ -97,9 +97,6 @@ public class KafkaController {
         return myTopicConsumer.getBlack_queue();
     }
 
-    @GetMapping("/kafka/white_sql")
-    public List<String> getWhiteSql(@RequestParam String color){
 
-    }
 
 }

@@ -1,8 +1,11 @@
 package com.cs237.kafkajava.consumer;
 
+import com.cs237.kafkajava.controller.MyWebSocket;
 import com.cs237.kafkajava.controller.Shoes;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -15,21 +18,20 @@ public class MyTopicConsumer {
     private final Queue<String> white_queue = new LinkedList<>();
     private final List<String> black_messages = new ArrayList<>();
     private final Queue<String> black_queue = new LinkedList<>();
-
     private final int maxlen = 5;
+    private MyWebSocket wscoket;
+
+    public MyTopicConsumer(){
+        wscoket = new MyWebSocket();
+    }
 
     @KafkaListener(topics = "White", groupId = "kafka-sandbox")
-    public void listen_white(String message) {
+    public void listen_white(String message) throws IOException {
         synchronized (white_messages) {
             white_messages.add(message);
         }
-        synchronized (white_queue) {
-            if(white_queue.size() < maxlen){
-                white_queue.add(message);
-            }else{
-                white_queue.poll();
-                white_queue.add(message);
-            }
+        if(wscoket.session_exsit){
+            wscoket.sendMessage(message);
         }
     }
 
