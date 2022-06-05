@@ -12,7 +12,6 @@ import java.util.Queue;
 public class MyTopicConsumer {
 
     private final List<String> white_messages = new ArrayList<>();
-
     private final Queue<String> white_queue = new LinkedList<>();
     private final List<String> black_messages = new ArrayList<>();
     private final Queue<String> black_queue = new LinkedList<>();

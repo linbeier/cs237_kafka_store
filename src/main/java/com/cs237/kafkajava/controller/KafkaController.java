@@ -22,7 +22,6 @@ import java.util.concurrent.TimeUnit;
 public class KafkaController {
     private KafkaTemplate<String, String> template;
     private MyTopicConsumer myTopicConsumer;
-//    private List<String> CategoryList;
 
     private List<Shoes> Grocery_map;
 
@@ -96,6 +95,11 @@ public class KafkaController {
     @GetMapping("/kafka/black_recent")
     public Queue<String> getBlackQueue(){
         return myTopicConsumer.getBlack_queue();
+    }
+
+    @GetMapping("/kafka/white_sql")
+    public List<String> getWhiteSql(@RequestParam String color){
+
     }
 
 }
