@@ -14,7 +14,7 @@ import java.util.Map;
 @Configuration
 public class ConsumerConfiguration {
 
-    private static final String KAFKA_BROKER = "localhost:9092";
+    private static final String KAFKA_BROKER = "192.168.70.130:9092";
     private static final String GROUP_ID = "kafka-sandbox";
 
     @Bean
