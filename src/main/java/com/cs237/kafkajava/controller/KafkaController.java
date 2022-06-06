@@ -3,10 +3,9 @@ package com.cs237.kafkajava.controller;
 
 import com.cs237.kafkajava.consumer.MyTopicConsumer;
 import com.google.gson.Gson;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.opencsv.bean.CsvToBeanBuilder;
 
@@ -97,6 +96,12 @@ public class KafkaController {
         return myTopicConsumer.getBlack_queue();
     }
 
+    @Autowired
+    ProductService productService;
 
-
+    @RequestMapping("/getProduct")
+    @ResponseBody
+    public List<Shoes> getProductList() {
+        return productService.getAllProducts();
+    }
 }

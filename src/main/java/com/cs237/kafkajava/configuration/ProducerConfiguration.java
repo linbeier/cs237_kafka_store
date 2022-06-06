@@ -13,7 +13,7 @@ import java.util.Map;
 
 @Configuration
 public class ProducerConfiguration {
-    private static final String KAFKA_BROKER = "localhost:9092";
+    private static final String KAFKA_BROKER = "192.168.70.130:9092";
 
     @Bean
     public ProducerFactory<String, String> producerFactory() {

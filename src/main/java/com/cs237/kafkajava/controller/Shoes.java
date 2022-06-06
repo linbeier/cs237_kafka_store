@@ -4,7 +4,9 @@ import com.google.gson.Gson;
 import com.opencsv.bean.CsvBindByName;
 import org.apache.kafka.common.protocol.types.Field;
 
-public class Shoes {
+import java.io.Serializable;
+
+public class Shoes implements Serializable {
         @CsvBindByName(column = "id")
         private String id;
 
@@ -72,4 +74,43 @@ public class Shoes {
                         + "," + geo_lat + "," + geo_long;
         }
 
+        public String getId() {
+                return id;
+        }
+
+        public String getBrand() {
+                return brand;
+        }
+
+        public String getCategories() {
+                return categories;
+        }
+
+        public String getColors() {
+                return colors;
+        }
+
+        public String getImage_url() {
+                return image_url;
+        }
+
+        public String getName() {
+                return name;
+        }
+
+        public Float getPrice() {
+                return price;
+        }
+
+        public int getQuantity() {
+                return quantity;
+        }
+
+        public String getGeo_lat() {
+                return geo_lat;
+        }
+
+        public String getGeo_long() {
+                return geo_long;
+        }
 }
