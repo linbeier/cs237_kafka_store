@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="577e3d02-c7f8-4a8c-a385-a207c5bbb858" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/cs237/kafkajava/consumer/MyTopicConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cs237/kafkajava/consumer/MyTopicConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cs237/kafkajava/controller/KafkaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cs237/kafkajava/controller/KafkaController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
