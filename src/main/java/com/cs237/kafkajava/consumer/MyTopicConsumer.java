@@ -1,7 +1,10 @@
 package com.cs237.kafkajava.consumer;
 
 import com.cs237.kafkajava.controller.MyWebSocket;
+import com.cs237.kafkajava.controller.ProductService;
 import com.cs237.kafkajava.controller.Shoes;
+import com.google.gson.Gson;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
@@ -25,6 +28,9 @@ public class MyTopicConsumer {
         wscoket = new MyWebSocket();
     }
 
+    @Autowired
+    ProductService productService;
+
     @KafkaListener(topics = "White", groupId = "kafka-sandbox")
     public void listen_white(String message) throws IOException {
         // TODO: push data into database / cache
@@ -39,6 +45,9 @@ public class MyTopicConsumer {
                 }
             }
         }
+        Shoes shoe = new Gson().fromJson(message, Shoes.class);
+        System.out.println(shoe.getImage_url());
+        productService.replaceProduct(shoe);
     }
 
     @KafkaListener(topics = "Black", groupId = "kafka-sandbox")
@@ -53,6 +62,10 @@ public class MyTopicConsumer {
                 }
             }
         }
+        Shoes shoe = new Gson().fromJson(message, Shoes.class);
+        System.out.println(shoe.getImage_url());
+//        System.out.println(sizeOf(shoe.getImage_url()));
+        productService.replaceProduct(shoe);
     }
 
     @KafkaListener(topics = "Multicolor", groupId = "kafka-sandbox")

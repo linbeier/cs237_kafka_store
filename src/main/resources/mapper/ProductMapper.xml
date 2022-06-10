@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cs237.kafkajava.mapper.ProductMapper">
+    <select id="getAllProducts" resultType="com.cs237.kafkajava.controller.Shoes">
+        SELECT * FROM shoes
+    </select>
+
+    <update id="updateProduct" parameterType="java.lang.String">
+        update shoes set age=age+1 where id =#{id}
+    </update>
+
+    <insert id="insertProduct" parameterType="com.cs237.kafkajava.controller.Shoes" timeout="20">
+        insert into shoes
+        (id, brand, categories, colors, image_url, name, price, quantity, geo_lat, geo_long)
+        values
+        (#{id}, #{brand}, #{categories}, #{colors}, #{image_url}, #{name}, #{price}, #{quantity}, #{geo_lat}, #{geo_long})
+    </insert>
+    <insert id="replaceProduct" parameterType="com.cs237.kafkajava.controller.Shoes" timeout="20">
+        replace into shoes
+        (id, brand, categories, colors, image_url, name, price, quantity, geo_lat, geo_long)
+        values
+        (#{id}, #{brand}, #{categories}, #{colors}, #{image_url}, #{name}, #{price}, #{quantity}, #{geo_lat}, #{geo_long})
+    </insert>
+
+    <select id="getColorProducts" resultType="com.cs237.kafkajava.controller.Shoes">
+        SELECT * FROM shoes where colors = #{colors}
+    </select>
+</mapper>
