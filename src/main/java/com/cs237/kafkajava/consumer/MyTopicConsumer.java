@@ -47,7 +47,7 @@ public class MyTopicConsumer {
         }
         Shoes shoe = new Gson().fromJson(message, Shoes.class);
         System.out.println(shoe.getImage_url());
-        productService.replaceProduct(shoe);
+        productService.insertProduct(shoe);
     }
 
     @KafkaListener(topics = "Black", groupId = "kafka-sandbox")
@@ -65,7 +65,7 @@ public class MyTopicConsumer {
         Shoes shoe = new Gson().fromJson(message, Shoes.class);
         System.out.println(shoe.getImage_url());
 //        System.out.println(sizeOf(shoe.getImage_url()));
-        productService.replaceProduct(shoe);
+        productService.insertProduct(shoe);
     }
 
     @KafkaListener(topics = "Multicolor", groupId = "kafka-sandbox")
