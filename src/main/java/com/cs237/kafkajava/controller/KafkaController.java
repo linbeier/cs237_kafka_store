@@ -52,15 +52,17 @@ public class KafkaController {
     class Task extends TimerTask {
         @Override
         public void run() {
-            if(Shoes_index >= Grocery_map.size())return;
-//            int shoes_quantity = (int) Grocery_map.get(Shoes_index).get("quantity");
-            int shoes_quantity = random_number.nextInt(0, 1000);
-//            if(shoes_quantity >= 1000){
-//                shoes_quantity = shoes_quantity % 1000;
-//            }
-//            if(shoes_quantity <= 0){
-//                shoes_quantity = -shoes_quantity;
-//            }
+            if(Shoes_index >= Grocery_map.size()){
+                Shoes_index = 0;
+            };
+            int shoes_quantity = (int) Grocery_map.get(Shoes_index).get("quantity");
+            shoes_quantity -= random_number.nextInt(shoes_quantity);
+            if(shoes_quantity <= 1){
+                shoes_quantity += random_number.nextInt(1000);
+            }
+            if(shoes_quantity >= 1000){
+                shoes_quantity = shoes_quantity % 1000;
+            }
             Grocery_map.get(Shoes_index).set("quantity", String.valueOf(shoes_quantity));
             template.send((String) Grocery_map.get(Shoes_index).get("colors"), new Gson().toJson(Grocery_map.get(Shoes_index)));
             System.out.println(Grocery_map.get(Shoes_index).get("colors") + Grocery_map.get(Shoes_index).toString());
