@@ -51,4 +51,11 @@ public class ProductServiceImpl implements ProductService {
     public void replaceProduct(Shoes shoe) {
         productMapper.replaceProduct(shoe);
     }
+
+    @Override
+    @Transactional
+    public List<Shoes> getColorProducts(String colors){
+        List<Shoes> shoes = productMapper.getColorProducts(colors);
+        return shoes;
+    }
 }

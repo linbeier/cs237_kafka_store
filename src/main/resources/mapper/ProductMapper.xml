@@ -21,4 +21,8 @@
         values
         (#{id}, #{brand}, #{categories}, #{colors}, #{image_url}, #{name}, #{price}, #{quantity}, #{geo_lat}, #{geo_long})
     </insert>
+
+    <select id="getColorProducts" resultType="com.cs237.kafkajava.controller.Shoes">
+        SELECT * FROM shoes where colors = #{colors}
+    </select>
 </mapper>

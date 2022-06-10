@@ -81,6 +81,13 @@ public class KafkaController {
 
     }
 
+    @GetMapping("/kafka/history_product")
+    public String history_product(@RequestParam String color) {
+        List<Shoes> shoesList =  productService.getColorProducts(color);
+        String shoes = new Gson().toJson(shoesList);
+        return shoes;
+    }
+
     @GetMapping("/kafka/producetest")
     public void produce(@RequestParam String message) {
         //control param to topic, Map<String, String>

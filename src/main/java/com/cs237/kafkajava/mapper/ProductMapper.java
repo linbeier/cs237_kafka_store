@@ -12,4 +12,6 @@ public interface ProductMapper {
     void insertProduct(Shoes shoe);
 
     void replaceProduct(Shoes shoe);
+
+    List<Shoes> getColorProducts(String colors);
 }
