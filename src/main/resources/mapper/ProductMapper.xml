@@ -6,8 +6,13 @@
     </select>
 
     <update id="updateProduct" parameterType="java.lang.String">
-        update product set age=age+1 where id =#{id}
+        update shoes set age=age+1 where id =#{id}
     </update>
 
-
+    <insert id="insertProduct" parameterType="com.cs237.kafkajava.controller.Shoes" timeout="20">
+        insert into shoes
+        (id, brand, categories, colors, image_url, name, price, quantity, geo_lat, geo_long)
+        values
+        (#{id}, #{brand}, #{categories}, #{colors}, #{image_url}, #{name}, #{price}, #{quantity}, #{geo_lat}, #{geo_long})
+    </insert>
 </mapper>

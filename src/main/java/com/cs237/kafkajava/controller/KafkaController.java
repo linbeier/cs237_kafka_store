@@ -53,7 +53,7 @@ public class KafkaController {
         public void run() {
             if(Shoes_index >= Grocery_map.size())return;
             template.send((String) Grocery_map.get(Shoes_index).get("colors"), new Gson().toJson(Grocery_map.get(Shoes_index)));
-            System.out.println(Grocery_map.get(Shoes_index).get("colors") + Grocery_map.get(Shoes_index).toString());
+//            System.out.println(Grocery_map.get(Shoes_index).get("colors") + Grocery_map.get(Shoes_index).toString());
             Shoes_index++;
         }
 
