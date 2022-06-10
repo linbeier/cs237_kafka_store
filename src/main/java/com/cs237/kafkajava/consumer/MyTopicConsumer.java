@@ -19,7 +19,7 @@ public class MyTopicConsumer {
     private final List<String> black_messages = new ArrayList<>();
     private final Queue<String> black_queue = new LinkedList<>();
     private final int maxlen = 5;
-    private MyWebSocket wscoket;
+    private final MyWebSocket wscoket;
 
     public MyTopicConsumer(){
         wscoket = new MyWebSocket();
@@ -27,11 +27,18 @@ public class MyTopicConsumer {
 
     @KafkaListener(topics = "White", groupId = "kafka-sandbox")
     public void listen_white(String message) throws IOException {
+        System.out.println(message);
+        // TODO: push data into database / cache
         synchronized (white_messages) {
             white_messages.add(message);
         }
-        if(wscoket.session_exsit){
-            wscoket.sendMessage(message);
+        // Send this record directly to interesting client session.
+        synchronized (wscoket) {
+            if (MyWebSocket.topicToWebSocketIdMap.containsKey("White")) {
+                for (String sessionId : MyWebSocket.topicToWebSocketIdMap.get("White")) {
+                    MyWebSocket.sendMessage(message, MyWebSocket.webSocketMap.get(sessionId));
+                }
+            }
         }
     }
 
