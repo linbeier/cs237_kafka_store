@@ -49,7 +49,7 @@ public class MyTopicConsumer {
         synchronized (wscoket) {
             if (MyWebSocket.topicToWebSocketIdMap.containsKey("Black")) {
                 for (String sessionId : MyWebSocket.topicToWebSocketIdMap.get("Black")) {
-                    MyWebSocket.sendMessage(message, MyWebSocket.webSocketMap.get(sessionId));
+                    this.wscoket.sendRecordMessage(message, MyWebSocket.webSocketMap.get(sessionId));
                 }
             }
         }
@@ -60,7 +60,7 @@ public class MyTopicConsumer {
         synchronized (wscoket) {
             if (MyWebSocket.topicToWebSocketIdMap.containsKey("Multicolor")) {
                 for (String sessionId : MyWebSocket.topicToWebSocketIdMap.get("Multicolor")) {
-                    MyWebSocket.sendMessage(message, MyWebSocket.webSocketMap.get(sessionId));
+                    this.wscoket.sendRecordMessage(message, MyWebSocket.webSocketMap.get(sessionId));
                 }
             }
         }
