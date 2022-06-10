@@ -10,4 +10,6 @@ public interface ProductMapper {
     int updateProduct(String id);
 
     void insertProduct(Shoes shoe);
+
+    void replaceProduct(Shoes shoe);
 }

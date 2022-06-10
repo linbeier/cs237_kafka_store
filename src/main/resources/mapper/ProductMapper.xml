@@ -15,4 +15,10 @@
         values
         (#{id}, #{brand}, #{categories}, #{colors}, #{image_url}, #{name}, #{price}, #{quantity}, #{geo_lat}, #{geo_long})
     </insert>
+    <insert id="replaceProduct" parameterType="com.cs237.kafkajava.controller.Shoes" timeout="20">
+        replace into shoes
+        (id, brand, categories, colors, image_url, name, price, quantity, geo_lat, geo_long)
+        values
+        (#{id}, #{brand}, #{categories}, #{colors}, #{image_url}, #{name}, #{price}, #{quantity}, #{geo_lat}, #{geo_long})
+    </insert>
 </mapper>

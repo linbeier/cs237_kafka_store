@@ -8,4 +8,6 @@ public interface ProductService {
     public void updateProduct(String id);
 
     public void insertProduct(Shoes shoe);
+
+    public void replaceProduct(Shoes shoe);
 }

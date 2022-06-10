@@ -45,4 +45,10 @@ public class ProductServiceImpl implements ProductService {
     public void insertProduct(Shoes shoe) {
         productMapper.insertProduct(shoe);
     }
+
+    @Override
+    @Transactional
+    public void replaceProduct(Shoes shoe) {
+        productMapper.replaceProduct(shoe);
+    }
 }
