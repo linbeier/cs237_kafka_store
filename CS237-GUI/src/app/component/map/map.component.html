@@ -1,0 +1,7 @@
+<input type="text" class="form-control textbox" [(ngModel)]="inputData"/>
+<button (click)="submitSearch(inputData)">Search</button>
+<div id="map"
+     leaflet
+     [leafletOptions]="mapOptions"
+     (leafletMapReady)="onMapReady($event)"
+></div>

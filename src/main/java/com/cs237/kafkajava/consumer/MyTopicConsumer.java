@@ -33,7 +33,6 @@ public class MyTopicConsumer {
 
     @KafkaListener(topics = "White", groupId = "kafka-sandbox")
     public void listen_white(String message) throws IOException {
-        System.out.println(message);
         // TODO: push data into database / cache
         synchronized (white_messages) {
             white_messages.add(message);
@@ -42,7 +41,7 @@ public class MyTopicConsumer {
         synchronized (wscoket) {
             if (MyWebSocket.topicToWebSocketIdMap.containsKey("White")) {
                 for (String sessionId : MyWebSocket.topicToWebSocketIdMap.get("White")) {
-                    MyWebSocket.sendMessage(message, MyWebSocket.webSocketMap.get(sessionId));
+                    this.wscoket.sendRecordMessage(message, MyWebSocket.webSocketMap.get(sessionId));
                 }
             }
         }
@@ -52,16 +51,15 @@ public class MyTopicConsumer {
     }
 
     @KafkaListener(topics = "Black", groupId = "kafka-sandbox")
-    public void listen_black(String message) {
+    public void listen_black(String message) throws IOException {
         synchronized (black_messages) {
             black_messages.add(message);
         }
-        synchronized (black_queue) {
-            if(black_queue.size() < maxlen){
-                black_queue.add(message);
-            }else{
-                black_queue.poll();
-                black_queue.add(message);
+        synchronized (wscoket) {
+            if (MyWebSocket.topicToWebSocketIdMap.containsKey("Black")) {
+                for (String sessionId : MyWebSocket.topicToWebSocketIdMap.get("Black")) {
+                    MyWebSocket.sendMessage(message, MyWebSocket.webSocketMap.get(sessionId));
+                }
             }
         }
         Shoes shoe = new Gson().fromJson(message, Shoes.class);
@@ -70,6 +68,16 @@ public class MyTopicConsumer {
         productService.replaceProduct(shoe);
     }
 
+    @KafkaListener(topics = "Multicolor", groupId = "kafka-sandbox")
+    public void listen_multicolor(String message) throws IOException {
+        synchronized (wscoket) {
+            if (MyWebSocket.topicToWebSocketIdMap.containsKey("Multicolor")) {
+                for (String sessionId : MyWebSocket.topicToWebSocketIdMap.get("Multicolor")) {
+                    MyWebSocket.sendMessage(message, MyWebSocket.webSocketMap.get(sessionId));
+                }
+            }
+        }
+    }
     public List<String> getWhite_messages() {
         return white_messages;
     }
