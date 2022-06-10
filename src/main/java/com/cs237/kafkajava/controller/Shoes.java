@@ -31,10 +31,10 @@ public class Shoes implements Serializable {
         @CsvBindByName(column = "Quantity")
         private int quantity;
 
-        @CsvBindByName(column = "Geo-lat")
+        @CsvBindByName(column = "Geo_lat")
         private String geo_lat;
 
-        @CsvBindByName(column = "Geo-long")
+        @CsvBindByName(column = "Geo_long")
         private String geo_long;
         //  getters, setters, toString
 
