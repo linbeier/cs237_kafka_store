@@ -57,18 +57,19 @@ export class MapComponent implements OnInit, OnDestroy {
 
   private handleNewData() {
     this.websocketService.productUpdateSubject.asObservable().pipe(untilDestroyed(this)).subscribe(product => {
-      console.log(product);
       if (!this.productIdToInfos.has(product.id)) {
         if (product.quantity > 0) {
           const newMarker = MapComponent.createMarker(product);
           this.markerClusterGroup.addLayer(newMarker);
-          this.productIdToInfos[product.id] = {
+          this.productIdToInfos.set(product.id, {
             product: product,
             clusterIdx: this.markerClusterGroup.getLayerId(newMarker)
-          }
+          });
+          // const id =(this.productIdToInfos.get(product.id) as {product: Product, clusterIdx: number}).clusterIdx;
+          // (this.markerClusterGroup.getLayer(id) as Marker).bindTooltip(id.toString());
         }
       } else {
-        const info = this.productIdToInfos[product.id];
+        const info = this.productIdToInfos.get(product.id) as {product: Product, clusterIdx: number};
         if (product.quantity > 0) {
           (this.markerClusterGroup.getLayer(info.clusterIdx) as Marker).setIcon(MapComponent.getDefaultIcon(product.quantity));
         } else {
