@@ -44,17 +44,18 @@ public class MyWebSocket {
         HashMap<String, String> messageMap = new ObjectMapper().readValue(message, HashMap.class);
         String messageType = messageMap.get("type");
         if (messageType.equals("QueryRequest")) {
+            String color = messageMap.get("productColor");
             // Remove previous subscription
             for (String key : topicToWebSocketIdMap.keySet()) {
                 topicToWebSocketIdMap.get(key).remove(session.getId());
             }
             // add new subscription
-            if (!topicToWebSocketIdMap.containsKey(message)) {
-                topicToWebSocketIdMap.put(message, new HashSet());
+            if (!topicToWebSocketIdMap.containsKey(color)) {
+                log.info(color);
+                topicToWebSocketIdMap.put(color, new HashSet());
             } else {
-                topicToWebSocketIdMap.get(message).add(session.getId());
+                topicToWebSocketIdMap.get(color).add(session.getId());
             }
-            sendMessage(makeTypedMessage("ProductUpdateEvent", "Empty Record"), session);
         }
     }
 
@@ -80,6 +81,10 @@ public class MyWebSocket {
     //发送消息
     public static void sendMessage(String message, Session session) throws IOException {
         session.getBasicRemote().sendText(message);
+    }
+
+    public void sendRecordMessage(String record, Session session) throws IOException {
+        sendMessage(this.makeTypedMessage("ProductUpdateEvent", record), session);
     }
 
     private String makeTypedMessage(String type, String content) {

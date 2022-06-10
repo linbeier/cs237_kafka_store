@@ -27,7 +27,6 @@ public class MyTopicConsumer {
 
     @KafkaListener(topics = "White", groupId = "kafka-sandbox")
     public void listen_white(String message) throws IOException {
-        System.out.println(message);
         // TODO: push data into database / cache
         synchronized (white_messages) {
             white_messages.add(message);
@@ -36,7 +35,7 @@ public class MyTopicConsumer {
         synchronized (wscoket) {
             if (MyWebSocket.topicToWebSocketIdMap.containsKey("White")) {
                 for (String sessionId : MyWebSocket.topicToWebSocketIdMap.get("White")) {
-                    MyWebSocket.sendMessage(message, MyWebSocket.webSocketMap.get(sessionId));
+                    this.wscoket.sendRecordMessage(message, MyWebSocket.webSocketMap.get(sessionId));
                 }
             }
         }
