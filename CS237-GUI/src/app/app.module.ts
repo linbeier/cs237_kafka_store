@@ -6,6 +6,7 @@ import { MapComponent } from './component/map/map.component';
 import {LeafletModule} from "@asymmetrik/ngx-leaflet";
 import {LeafletMarkerClusterModule} from "@asymmetrik/ngx-leaflet-markercluster";
 import {FormsModule} from "@angular/forms";
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import {FormsModule} from "@angular/forms";
     BrowserModule,
     LeafletModule,
     LeafletMarkerClusterModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

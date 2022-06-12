@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import {AppSettings} from "../../common/app-settings/app-settings";
 import {Observable} from "rxjs";
 import {Product} from "../../type/product/product";
 import {HttpClient} from "@angular/common/http";
@@ -8,13 +7,11 @@ import {HttpClient} from "@angular/common/http";
   providedIn: 'root'
 })
 export class ProductQueryService {
-
-  public static readonly QUERY_ENDPOINT = 'query'
-  private serverUrl: string = `${AppSettings.getApiEndpoint()}/${ProductQueryService.QUERY_ENDPOINT}/white`;
+  private serverUrl: string = `http://localhost:8080/kafka/history_product?color=`;
 
   constructor(private http: HttpClient) { }
 
-  public queryProduct(): Observable<Product[]> {
-    return this.http.get<Product[]>(this.serverUrl);
+  public queryProduct(productColor: string): Observable<Product[]> {
+    return this.http.get<Product[]>(this.serverUrl + productColor);
   }
 }

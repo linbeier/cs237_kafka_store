@@ -55,7 +55,7 @@ export class WebsocketService {
     this.websocketSubscription = this.websocket.subscribe(event => {
       this.webSocketEventSubject.next(event as WebsocketEvent);
     });
-    this.sendNewRequest(productColor);
+    // this.sendNewRequest(productColor);
   }
 
   public sendNewRequest(productColor: string) {

@@ -25,17 +25,17 @@ public class Shoes implements Serializable {
         @CsvBindByName(column = "name")
         private String name;
 
-        @CsvBindByName(column = "Price")
+        @CsvBindByName(column = "price")
         private Float price;
 
-        @CsvBindByName(column = "Quantity")
+        @CsvBindByName(column = "quantity")
         private int quantity;
 
-        @CsvBindByName(column = "Geo_lat")
-        private String geo_lat;
+        @CsvBindByName(column = "lati")
+        private String lati;
 
-        @CsvBindByName(column = "Geo_long")
-        private String geo_long;
+        @CsvBindByName(column = "longti")
+        private String longti;
         //  getters, setters, toString
 
         public Object get(String key){
@@ -48,8 +48,8 @@ public class Shoes implements Serializable {
                         case "image_url" -> image_url;
                         case "price" -> price;
                         case "quantity" -> quantity;
-                        case "geo_lat" -> geo_lat;
-                        case "geo_long" -> geo_long;
+                        case "lati" -> lati;
+                        case "longti" -> longti;
                         default -> name;
                 };
         }
@@ -64,14 +64,14 @@ public class Shoes implements Serializable {
                         case "image_url" -> image_url = value;
                         case "price" -> price = Float.parseFloat(value);
                         case "quantity" -> quantity = Integer.parseInt(value);
-                        case "geo_lat" -> geo_lat = value;
-                        case "geo_long" -> geo_long = value;
+                        case "lati" -> lati = value;
+                        case "longti" -> longti = value;
                 };
         }
 
         public String toString(){
                 return id + "," + brand + "," + categories + "," + colors + "," + image_url + "," + price + "," + quantity
-                        + "," + geo_lat + "," + geo_long;
+                        + "," + lati + "," + longti;
         }
 
         public String getId() {
@@ -107,10 +107,10 @@ public class Shoes implements Serializable {
         }
 
         public String getGeo_lat() {
-                return geo_lat;
+                return lati;
         }
 
         public String getGeo_long() {
-                return geo_long;
+                return longti;
         }
 }

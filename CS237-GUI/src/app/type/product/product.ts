@@ -7,6 +7,6 @@ export class Product {
   name!: string;
   price!: number;
   quantity!: number;
-  geo_lat!: number;
-  geo_long!: number;
+  lati!: number;
+  longti!: number;
 }

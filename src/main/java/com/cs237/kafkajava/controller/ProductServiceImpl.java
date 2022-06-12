@@ -17,25 +17,25 @@ public class ProductServiceImpl implements ProductService {
     @Resource
     ProductMapper productMapper;
 
-    @Autowired
-    RedisUtil redisUtil;
+//    @Autowired
+//    RedisUtil redisUtil;
 
     @Override
     public List<Shoes> getAllProducts() {
         // Problem: Don't update the redis cache.
-        List<Shoes> products = (List<Shoes>) redisUtil.get(RedisConstant.ALL_PRODUCT_KEY);
-        if(CollectionUtils.isEmpty(products)){
-            products = productMapper.getAllProducts();
-            redisUtil.set(RedisConstant.ALL_PRODUCT_KEY, products);
-        }
-//        List<Shoes> products = productMapper.getAllProducts();
+//        List<Shoes> products = (List<Shoes>) redisUtil.get(RedisConstant.ALL_PRODUCT_KEY);
+//        if(CollectionUtils.isEmpty(products)){
+//            products = productMapper.getAllProducts();
+//            redisUtil.set(RedisConstant.ALL_PRODUCT_KEY, products);
+//        }
+        List<Shoes> products = productMapper.getAllProducts();
         return products;
     }
 
     @Override
     @Transactional
     public void updateProduct(String id) {
-        redisUtil.del(RedisConstant.ALL_PRODUCT_KEY);
+//        redisUtil.del(RedisConstant.ALL_PRODUCT_KEY);
         productMapper.updateProduct("abcd");
         productMapper.updateProduct("efgi");
     }

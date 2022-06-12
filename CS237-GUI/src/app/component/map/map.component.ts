@@ -6,6 +6,7 @@ import icons from 'leaflet-color-number-markers';
 import {WebsocketService} from "../../service/websocket/websocket.service";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import {Product} from "../../type/product/product";
+import {ProductQueryService} from "../../service/product-query/product-query.service";
 
 @UntilDestroy()
 @Component({
@@ -23,7 +24,8 @@ export class MapComponent implements OnInit, OnDestroy {
   productIdToInfos = new Map<String, {product: Product, clusterIdx: number}>();
   inputData: string = 'White';
 
-  constructor(private websocketService: WebsocketService) {
+  constructor(private websocketService: WebsocketService,
+              private productQueryService: ProductQueryService) {
     this.markerClusterGroup = L.markerClusterGroup({removeOutsideVisibleBounds: true});
   }
 
@@ -40,6 +42,7 @@ export class MapComponent implements OnInit, OnDestroy {
     this.markerClusterGroup.addTo(this.map);
     this.websocketService.openWebsocket("White");
     this.handleNewData();
+    this.submitSearch("White");
     // setInterval(()=>{
     //   this.markerClusterGroup.eachLayer(layer => {
     //     const randInt = Math.floor(Math.random() * (Math.floor(1000) - Math.ceil(0) + 1)) + Math.ceil(0);
@@ -71,6 +74,7 @@ export class MapComponent implements OnInit, OnDestroy {
       } else {
         const info = this.productIdToInfos.get(product.id) as {product: Product, clusterIdx: number};
         if (product.quantity > 0) {
+          if (product.quantity >= 1000) product.quantity = 999;
           (this.markerClusterGroup.getLayer(info.clusterIdx) as Marker).setIcon(MapComponent.getDefaultIcon(product.quantity));
         } else {
           this.markerClusterGroup.removeLayer(this.markerClusterGroup.getLayer(info.clusterIdx) as Layer);
@@ -124,7 +128,7 @@ export class MapComponent implements OnInit, OnDestroy {
   }
 
   private static createMarker(product: Product): Marker {
-    const newMarker =  marker(latLng(product.geo_lat, product.geo_long));
+    const newMarker =  marker(latLng(product.lati, product.longti));
     let q = product.quantity;
     if (q > 1000)
       q = 999
@@ -142,6 +146,9 @@ export class MapComponent implements OnInit, OnDestroy {
 
   submitSearch(inputData: string) {
     this.markerClusterGroup.clearLayers();
+    this.productQueryService.queryProduct(inputData).subscribe(value => {
+      this.batchAddMarkers(value);
+    });
     this.websocketService.sendNewRequest(inputData);
   }
 }
