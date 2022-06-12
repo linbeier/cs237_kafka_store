@@ -19,8 +19,8 @@ public class Shoes implements Serializable {
         @CsvBindByName(column = "colors")
         private String colors;
 
-        @CsvBindByName(column = "imageURLs")
-        private String image_url;
+//        @CsvBindByName(column = "imageURLs")
+//        private String image_url;
 
         @CsvBindByName(column = "name")
         private String name;
@@ -45,7 +45,7 @@ public class Shoes implements Serializable {
                         case "brand" -> brand;
                         case "categories" -> categories;
                         case "colors" -> colors;
-                        case "image_url" -> image_url;
+//                        case "image_url" -> image_url;
                         case "price" -> price;
                         case "quantity" -> quantity;
                         case "lati" -> lati;
@@ -61,7 +61,7 @@ public class Shoes implements Serializable {
                         case "brand" -> brand = value;
                         case "categories" -> categories = value;
                         case "colors" -> colors = value;
-                        case "image_url" -> image_url = value;
+//                        case "image_url" -> image_url = value;
                         case "price" -> price = Float.parseFloat(value);
                         case "quantity" -> quantity = Integer.parseInt(value);
                         case "lati" -> lati = value;
@@ -70,7 +70,7 @@ public class Shoes implements Serializable {
         }
 
         public String toString(){
-                return id + "," + brand + "," + categories + "," + colors + "," + image_url + "," + price + "," + quantity
+                return id + "," + brand + "," + categories + "," + colors + "," + price + "," + quantity
                         + "," + lati + "," + longti;
         }
 
@@ -90,9 +90,9 @@ public class Shoes implements Serializable {
                 return colors;
         }
 
-        public String getImage_url() {
-                return image_url;
-        }
+//        public String getImage_url() {
+//                return image_url;
+//        }
 
         public String getName() {
                 return name;

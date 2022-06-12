@@ -24,28 +24,38 @@ public class KafkaController {
 
     private List<Shoes> Grocery_map;
 
-    private Random random_number;
+    private static Random random_number;
     private String csv_path;
     private int Shoes_index;
+
+    private long shoes_produced;
 
     public KafkaController(KafkaTemplate<String, String> template, MyTopicConsumer myTopicConsumer) throws FileNotFoundException {
         this.template = template;
         this.myTopicConsumer = myTopicConsumer;
         this.csv_path = "src/main/resources/Mock-data-mens-shoes.csv";
-        this.random_number = new Random();
+        random_number = new Random(System.currentTimeMillis());
         this.Grocery_map = new CsvToBeanBuilder(new FileReader(this.csv_path))
                 .withType(Shoes.class)
                 .build()
                 .parse();
         this.Shoes_index = 0;
-        String[] colors_fake = {"White", "Black", "Grey", "Yellow", "Red", "Green", "Brown", "Multicolor", "Other"};
+        this.shoes_produced = 0;
+        String[] colors_fake = {"White", "Black", "Multicolor"};
         for (Shoes p : this.Grocery_map) {
-            p.set("colors", colors_fake[this.random_number.nextInt(7)]);
+            p.set("colors", colors_fake[this.random_number.nextInt(3)]);
         };
 
     }
 
-
+    static public double nextSkewedBoundedDouble(double min, double max, double skew, double bias) {
+        double range = max - min;
+        double mid = min + range / 2.0;
+        double unitGaussian = random_number.nextGaussian();
+        double biasFactor = Math.exp(bias);
+        double retval = mid + (range * (biasFactor / (biasFactor + Math.exp(-unitGaussian/skew)) - 0.5));
+        return retval;
+    }
     Timer timer = new Timer();
 
     class Task extends TimerTask {
@@ -55,17 +65,24 @@ public class KafkaController {
                 Shoes_index = 0;
             };
             int shoes_quantity = (int) Grocery_map.get(Shoes_index).get("quantity");
+            if(shoes_quantity <= 1){
+                shoes_quantity = random_number.nextInt(1000);
+            }
             shoes_quantity -= random_number.nextInt(shoes_quantity);
             if(shoes_quantity <= 1){
-                shoes_quantity += random_number.nextInt(1000);
+                shoes_quantity = random_number.nextInt(1000);
             }
             if(shoes_quantity >= 1000){
                 shoes_quantity = shoes_quantity % 1000;
             }
             Grocery_map.get(Shoes_index).set("quantity", String.valueOf(shoes_quantity));
             template.send((String) Grocery_map.get(Shoes_index).get("colors"), new Gson().toJson(Grocery_map.get(Shoes_index)));
-            System.out.println(Grocery_map.get(Shoes_index).get("colors") + Grocery_map.get(Shoes_index).toString());
+//            System.out.println(Grocery_map.get(Shoes_index).get("colors") + Grocery_map.get(Shoes_index).toString());
             Shoes_index += random_number.nextInt(2);
+            shoes_produced++;
+            if(shoes_produced % 10000 == 0){
+                System.out.println("shoes have been produced: " +  shoes_produced + "\n");
+            }
         }
 
     }
@@ -79,6 +96,14 @@ public class KafkaController {
             TimeUnit.MILLISECONDS.sleep(100);
         }
 
+    }
+
+    @GetMapping("/kafka/produce_skew")
+    public void produce_skew(){
+        while(Shoes_index < Grocery_map.size()){
+            long delay = (long)nextSkewedBoundedDouble(0, 10000, 1, 1);
+            timer.schedule(new Task(), delay);
+        }
     }
 
     @GetMapping("/kafka/history_product")

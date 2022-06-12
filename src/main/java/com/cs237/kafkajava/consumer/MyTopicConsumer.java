@@ -46,7 +46,7 @@ public class MyTopicConsumer {
             }
         }
         Shoes shoe = new Gson().fromJson(message, Shoes.class);
-        System.out.println(shoe.getImage_url());
+//        System.out.println(shoe.getImage_url());
         productService.insertProduct(shoe);
     }
 
@@ -63,7 +63,7 @@ public class MyTopicConsumer {
             }
         }
         Shoes shoe = new Gson().fromJson(message, Shoes.class);
-        System.out.println(shoe.getImage_url());
+//        System.out.println(shoe.getImage_url());
 //        System.out.println(sizeOf(shoe.getImage_url()));
         productService.insertProduct(shoe);
     }
@@ -77,6 +77,9 @@ public class MyTopicConsumer {
                 }
             }
         }
+        Shoes shoe = new Gson().fromJson(message, Shoes.class);
+//        System.out.println(shoe.getImage_url());
+        productService.insertProduct(shoe);
     }
     public List<String> getWhite_messages() {
         return white_messages;
