@@ -35,6 +35,9 @@
       <excludeFolder url="file://$MODULE_DIR$/CS237-GUI/dist" />
       <excludeFolder url="file://$MODULE_DIR$/CS237-GUI/tmp" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/codeStyles" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/inspectionProfiles" />
+      <excludeFolder url="file://$MODULE_DIR$/CS237-GUI/.angular/cache" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
