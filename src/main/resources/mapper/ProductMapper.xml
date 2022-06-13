@@ -11,18 +11,18 @@
 
     <insert id="insertProduct" parameterType="com.cs237.kafkajava.controller.Shoes" timeout="20">
         insert into shoes
-        (id, brand, categories, colors, image_url, name, price, quantity, lati, longti)
+        (id, brand, categories, colors, name, price, quantity, lati, longti, produce_time, consume_time)
         values
-        (#{id}, #{brand}, #{categories}, #{colors}, #{image_url}, #{name}, #{price}, #{quantity}, #{lati}, #{longti})
+        (#{id}, #{brand}, #{categories}, #{colors}, #{name}, #{price}, #{quantity}, #{lati}, #{longti}, #{produce_time}, #{consume_time})
         ON CONFLICT (id)
         DO NOTHING
 <!--        UPDATE SET quantity = #{quantity}-->
     </insert>
     <insert id="replaceProduct" parameterType="com.cs237.kafkajava.controller.Shoes" timeout="20">
         replace into shoes
-        (id, brand, categories, colors, image_url, name, price, quantity, lati, longti)
+        (id, brand, categories, colors, name, price, quantity, lati, longti, produce_time, consume_time)
         values
-        (#{id}, #{brand}, #{categories}, #{colors}, #{image_url}, #{name}, #{price}, #{quantity}, #{lati}, #{longti})
+        (#{id}, #{brand}, #{categories}, #{colors}, #{name}, #{price}, #{quantity}, #{lati}, #{longti}, #{produce_time}, #{consume_time})
     </insert>
 
     <select id="getColorProducts" resultType="com.cs237.kafkajava.controller.Shoes">

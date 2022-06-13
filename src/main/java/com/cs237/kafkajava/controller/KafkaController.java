@@ -16,6 +16,7 @@ import java.util.List;
 import java.sql.Time;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 @RestController
 public class KafkaController {
@@ -28,7 +29,8 @@ public class KafkaController {
     private String csv_path;
     private int Shoes_index;
 
-    private long shoes_produced;
+    public static ConcurrentHashMap<Integer, Map<String, Long>> timeStore;
+    private int shoes_produced;
 
     public KafkaController(KafkaTemplate<String, String> template, MyTopicConsumer myTopicConsumer) throws FileNotFoundException {
         this.template = template;
@@ -39,11 +41,17 @@ public class KafkaController {
                 .withType(Shoes.class)
                 .build()
                 .parse();
+        int record_count = 0;
+        for (Shoes s:this.Grocery_map) {
+            s.set("id", String.valueOf(record_count));
+            record_count++;
+        }
         this.Shoes_index = 0;
         this.shoes_produced = 0;
+        if(timeStore == null)timeStore = new ConcurrentHashMap<>();
         String[] colors_fake = {"White", "Black", "Multicolor"};
         for (Shoes p : this.Grocery_map) {
-            p.set("colors", colors_fake[this.random_number.nextInt(3)]);
+            p.set("colors", colors_fake[random_number.nextInt(3)]);
         };
 
     }
@@ -76,11 +84,15 @@ public class KafkaController {
                 shoes_quantity = shoes_quantity % 1000;
             }
             Grocery_map.get(Shoes_index).set("quantity", String.valueOf(shoes_quantity));
+            Grocery_map.get(Shoes_index).set("produce_time", String.valueOf(System.currentTimeMillis()));
             template.send((String) Grocery_map.get(Shoes_index).get("colors"), new Gson().toJson(Grocery_map.get(Shoes_index)));
-//            System.out.println(Grocery_map.get(Shoes_index).get("colors") + Grocery_map.get(Shoes_index).toString());
-            Shoes_index += random_number.nextInt(2);
+//            Map<String, Long> m = new HashMap<>();
+//            m.put("produce_start", System.currentTimeMillis());
+//            timeStore.put((Integer) Grocery_map.get(Shoes_index).get("id"), m);
+
+            Shoes_index += 1;
             shoes_produced++;
-            if(shoes_produced % 10000 == 0){
+            if(shoes_produced % 1000 == 0){
                 System.out.println("shoes have been produced: " +  shoes_produced + "\n");
             }
         }
@@ -90,19 +102,25 @@ public class KafkaController {
     @GetMapping("/kafka/produce_random")
     public void produce() throws InterruptedException {
         //control param to topic, Map<String, String>
-        while(Shoes_index < Grocery_map.size()){
+        int size = Grocery_map.size();
+        int count = 0;
+        while(count < size){
             int delay = new Random().nextInt(100) * 100;
             timer.schedule(new Task(), delay);
             TimeUnit.MILLISECONDS.sleep(100);
+            count++;
         }
 
     }
 
     @GetMapping("/kafka/produce_skew")
     public void produce_skew(){
-        while(Shoes_index < Grocery_map.size()){
+        int size = Grocery_map.size();
+        int count = 0;
+        while(count < size){
             long delay = (long)nextSkewedBoundedDouble(0, 10000, 1, 1);
             timer.schedule(new Task(), delay);
+            count++;
         }
     }
 

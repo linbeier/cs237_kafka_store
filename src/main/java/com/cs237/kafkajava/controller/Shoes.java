@@ -38,6 +38,12 @@ public class Shoes implements Serializable {
         private String longti;
         //  getters, setters, toString
 
+        @CsvBindByName(column = "produce_time")
+        private Long produce_time;
+
+        @CsvBindByName(column = "consume_time")
+        private Long consume_time;
+
         public Object get(String key){
                 return switch (key) {
                         case "name" -> name;
@@ -66,6 +72,8 @@ public class Shoes implements Serializable {
                         case "quantity" -> quantity = Integer.parseInt(value);
                         case "lati" -> lati = value;
                         case "longti" -> longti = value;
+                        case "produce_time" -> produce_time = Long.parseLong(value);
+                        case "consume_time" -> consume_time = Long.parseLong(value);
                 };
         }
 
@@ -113,4 +121,8 @@ public class Shoes implements Serializable {
         public String getGeo_long() {
                 return longti;
         }
+
+        public Long getProduce_time(){return produce_time;}
+
+        public Long getConsume_time(){return consume_time;}
 }

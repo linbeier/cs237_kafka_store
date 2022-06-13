@@ -1,5 +1,6 @@
 package com.cs237.kafkajava.consumer;
 
+import com.cs237.kafkajava.controller.KafkaController;
 import com.cs237.kafkajava.controller.MyWebSocket;
 import com.cs237.kafkajava.controller.ProductService;
 import com.cs237.kafkajava.controller.Shoes;
@@ -34,6 +35,10 @@ public class MyTopicConsumer {
     @KafkaListener(topics = "White", groupId = "kafka-sandbox")
     public void listen_white(String message) throws IOException {
         // TODO: push data into database / cache
+        long receive_time = System.currentTimeMillis();
+        Shoes s = new Gson().fromJson(message, Shoes.class);
+        s.set("consume_time", String.valueOf(receive_time));
+        String newMessage = new Gson().toJson(s);
         synchronized (white_messages) {
             white_messages.add(message);
         }
@@ -41,45 +46,53 @@ public class MyTopicConsumer {
         synchronized (wscoket) {
             if (MyWebSocket.topicToWebSocketIdMap.containsKey("White")) {
                 for (String sessionId : MyWebSocket.topicToWebSocketIdMap.get("White")) {
-                    this.wscoket.sendRecordMessage(message, MyWebSocket.webSocketMap.get(sessionId));
+                    this.wscoket.sendRecordMessage(newMessage, MyWebSocket.webSocketMap.get(sessionId));
                 }
             }
         }
-        Shoes shoe = new Gson().fromJson(message, Shoes.class);
-//        System.out.println(shoe.getImage_url());
-        productService.insertProduct(shoe);
+//        Shoes shoe = new Gson().fromJson(newMessage, Shoes.class);
+//        System.out.println(s);
+        productService.insertProduct(s);
     }
 
     @KafkaListener(topics = "Black", groupId = "kafka-sandbox")
     public void listen_black(String message) throws IOException {
+        long receive_time = System.currentTimeMillis();
+        Shoes s = new Gson().fromJson(message, Shoes.class);
+        s.set("consume_time", String.valueOf(receive_time));
+        String newMessage = new Gson().toJson(s);
         synchronized (black_messages) {
             black_messages.add(message);
         }
         synchronized (wscoket) {
             if (MyWebSocket.topicToWebSocketIdMap.containsKey("Black")) {
                 for (String sessionId : MyWebSocket.topicToWebSocketIdMap.get("Black")) {
-                    this.wscoket.sendRecordMessage(message, MyWebSocket.webSocketMap.get(sessionId));
+                    this.wscoket.sendRecordMessage(newMessage, MyWebSocket.webSocketMap.get(sessionId));
                 }
             }
         }
-        Shoes shoe = new Gson().fromJson(message, Shoes.class);
-//        System.out.println(shoe.getImage_url());
+//        Shoes shoe = new Gson().fromJson(newMessage, Shoes.class);
+//        System.out.println(shoe);
 //        System.out.println(sizeOf(shoe.getImage_url()));
-        productService.insertProduct(shoe);
+        productService.insertProduct(s);
     }
 
     @KafkaListener(topics = "Multicolor", groupId = "kafka-sandbox")
     public void listen_multicolor(String message) throws IOException {
+        long receive_time = System.currentTimeMillis();
+        Shoes s = new Gson().fromJson(message, Shoes.class);
+        s.set("consume_time", String.valueOf(receive_time));
+        String newMessage = new Gson().toJson(s);
         synchronized (wscoket) {
             if (MyWebSocket.topicToWebSocketIdMap.containsKey("Multicolor")) {
                 for (String sessionId : MyWebSocket.topicToWebSocketIdMap.get("Multicolor")) {
-                    this.wscoket.sendRecordMessage(message, MyWebSocket.webSocketMap.get(sessionId));
+                    this.wscoket.sendRecordMessage(newMessage, MyWebSocket.webSocketMap.get(sessionId));
                 }
             }
         }
-        Shoes shoe = new Gson().fromJson(message, Shoes.class);
-//        System.out.println(shoe.getImage_url());
-        productService.insertProduct(shoe);
+//        Shoes shoe = new Gson().fromJson(newMessage, Shoes.class);
+//        System.out.println(shoe);
+        productService.insertProduct(s);
     }
     public List<String> getWhite_messages() {
         return white_messages;
