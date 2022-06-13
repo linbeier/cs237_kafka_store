@@ -42,7 +42,7 @@ public class MyTopicConsumer {
         long receive_time = System.currentTimeMillis();
         Shoes s = new Gson().fromJson(message, Shoes.class);
         total_time += receive_time - s.getProduce_time();
-        s.set("consume_time", String.valueOf(receive_time));
+        s.set("consumetime", String.valueOf(receive_time));
         String newMessage = new Gson().toJson(s);
         synchronized (white_messages) {
             white_messages.add(message);
@@ -70,7 +70,7 @@ public class MyTopicConsumer {
         long receive_time = System.currentTimeMillis();
         Shoes s = new Gson().fromJson(message, Shoes.class);
         total_time += receive_time - s.getProduce_time();
-        s.set("consume_time", String.valueOf(receive_time));
+        s.set("consumetime", String.valueOf(receive_time));
         String newMessage = new Gson().toJson(s);
         synchronized (black_messages) {
             black_messages.add(message);
@@ -99,7 +99,7 @@ public class MyTopicConsumer {
         long receive_time = System.currentTimeMillis();
         Shoes s = new Gson().fromJson(message, Shoes.class);
         total_time += receive_time - s.getProduce_time();
-        s.set("consume_time", String.valueOf(receive_time));
+        s.set("consumetime", String.valueOf(receive_time));
         String newMessage = new Gson().toJson(s);
         synchronized (wscoket) {
             if (MyWebSocket.topicToWebSocketIdMap.containsKey("Multicolor")) {

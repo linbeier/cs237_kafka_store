@@ -9,10 +9,7 @@ CREATE TABLE shoes (
                        quantity integer NOT NULL,
                        lati varchar(63),
                        longti varchar(63),
+                       producetime bigint,
+                       consumetime bigint,
                        PRIMARY KEY(id)
 );
-
-
-alter table shoes
-add column produce_time bigint,
-add column consume_time bigint;

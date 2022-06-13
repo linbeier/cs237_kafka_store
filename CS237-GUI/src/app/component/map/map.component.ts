@@ -23,6 +23,16 @@ export class MapComponent implements OnInit, OnDestroy {
   // Maps a product to its indexed position in the markerClusterGroup
   productIdToInfos = new Map<String, {product: Product, clusterIdx: number}>();
   inputData: string = 'White';
+  total_delay: number = 0;
+  total_records: number = 0;
+  average_delay: number = 0.0;
+  max_delay: number = 0;
+
+  r_total_delay: number = 0;
+  r_total_records: number = 0;
+  r_average_delay: number = 0.0;
+  r_max_delay: number = 0;
+
 
   constructor(private websocketService: WebsocketService,
               private productQueryService: ProductQueryService) {
@@ -80,6 +90,11 @@ export class MapComponent implements OnInit, OnDestroy {
           this.markerClusterGroup.removeLayer(this.markerClusterGroup.getLayer(info.clusterIdx) as Layer);
         }
       }
+      const delay = Date.now() - product.producetime;
+      this.r_total_delay += delay;
+      this.r_total_records ++;
+      this.r_average_delay = this.r_total_delay / this.r_total_records;
+      if (this.r_max_delay < delay) this.r_max_delay = delay;
     })
   }
 
@@ -113,18 +128,17 @@ export class MapComponent implements OnInit, OnDestroy {
         clusterIdx: this.markerClusterGroup.getLayerId(newMarker),
       }
     }
-  }
 
-  private static randomMarker(): Marker {
-    const randInt = Math.floor(Math.random() * (Math.floor(1000) - Math.ceil(0) + 1)) + Math.ceil(0);
-    const randIcon = MapComponent.getDefaultIcon(randInt);
-    const randCoordinate = latLng([
-      (Math.random() * (33.8 - 34.1) + 34.1),
-      (Math.random() * (-118.36689 - -118) + -118)
-    ]);
-    const newMarker = marker(randCoordinate).setIcon(randIcon);
-    newMarker.bindPopup("<b>Hello world!</b><br>I am a popup.");
-    return newMarker;
+    for (const product of products) {
+      const delay = product.consumetime - product.producetime;
+      this.total_records++;
+      this.total_delay += delay;
+      this.average_delay = this.total_delay / this.total_records;
+      if (delay > this.max_delay) this.max_delay = delay;
+    }
+
+    console.log("average delay:", this.average_delay);
+    console.log("max delay", this.max_delay);
   }
 
   private static createMarker(product: Product): Marker {
@@ -141,10 +155,12 @@ export class MapComponent implements OnInit, OnDestroy {
   }
 
   private static createPopupString(product: Product): string {
-    return `${product.brand}\n${product.name}\n${product.price}`
+    return `<b>${product.brand}</b> <br>${product.name}</br><br>$${product.price}</br>`
   }
 
   submitSearch(inputData: string) {
+    console.log("r-average delay:", this.r_average_delay);
+    console.log("r-max delay", this.r_max_delay);
     this.markerClusterGroup.clearLayers();
     this.productQueryService.queryProduct(inputData).subscribe(value => {
       this.batchAddMarkers(value);

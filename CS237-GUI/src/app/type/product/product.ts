@@ -9,4 +9,6 @@ export class Product {
   quantity!: number;
   lati!: number;
   longti!: number;
+  producetime!: number;
+  consumetime!: number;
 }

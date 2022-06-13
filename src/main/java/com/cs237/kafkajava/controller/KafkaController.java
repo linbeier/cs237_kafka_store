@@ -84,7 +84,7 @@ public class KafkaController {
                 shoes_quantity = shoes_quantity % 1000;
             }
             Grocery_map.get(Shoes_index).set("quantity", String.valueOf(shoes_quantity));
-            Grocery_map.get(Shoes_index).set("produce_time", String.valueOf(System.currentTimeMillis()));
+            Grocery_map.get(Shoes_index).set("producetime", String.valueOf(System.currentTimeMillis()));
             template.send((String) Grocery_map.get(Shoes_index).get("colors"), new Gson().toJson(Grocery_map.get(Shoes_index)));
 //            Map<String, Long> m = new HashMap<>();
 //            m.put("produce_start", System.currentTimeMillis());
