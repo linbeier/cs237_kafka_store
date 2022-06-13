@@ -29,6 +29,10 @@ public class MyTopicConsumer {
         wscoket = new MyWebSocket();
     }
 
+    private long total_time = 0;
+
+    private long received = 0;
+
     @Autowired
     ProductService productService;
 
@@ -37,6 +41,7 @@ public class MyTopicConsumer {
         // TODO: push data into database / cache
         long receive_time = System.currentTimeMillis();
         Shoes s = new Gson().fromJson(message, Shoes.class);
+        total_time += receive_time - s.getProduce_time();
         s.set("consume_time", String.valueOf(receive_time));
         String newMessage = new Gson().toJson(s);
         synchronized (white_messages) {
@@ -53,12 +58,18 @@ public class MyTopicConsumer {
 //        Shoes shoe = new Gson().fromJson(newMessage, Shoes.class);
 //        System.out.println(s);
         productService.insertProduct(s);
+
+        received++;
+        if(received % 1000 == 0){
+            System.out.println("No." + received + " the average time from producer to consumer is: " + (double)total_time / received);
+        }
     }
 
     @KafkaListener(topics = "Black", groupId = "kafka-sandbox")
     public void listen_black(String message) throws IOException {
         long receive_time = System.currentTimeMillis();
         Shoes s = new Gson().fromJson(message, Shoes.class);
+        total_time += receive_time - s.getProduce_time();
         s.set("consume_time", String.valueOf(receive_time));
         String newMessage = new Gson().toJson(s);
         synchronized (black_messages) {
@@ -75,12 +86,19 @@ public class MyTopicConsumer {
 //        System.out.println(shoe);
 //        System.out.println(sizeOf(shoe.getImage_url()));
         productService.insertProduct(s);
+
+        received++;
+        if(received % 1000 == 0){
+            System.out.println("No." + received + " the average time from producer to consumer is: " + (double)total_time / received);
+
+        }
     }
 
     @KafkaListener(topics = "Multicolor", groupId = "kafka-sandbox")
     public void listen_multicolor(String message) throws IOException {
         long receive_time = System.currentTimeMillis();
         Shoes s = new Gson().fromJson(message, Shoes.class);
+        total_time += receive_time - s.getProduce_time();
         s.set("consume_time", String.valueOf(receive_time));
         String newMessage = new Gson().toJson(s);
         synchronized (wscoket) {
@@ -93,6 +111,11 @@ public class MyTopicConsumer {
 //        Shoes shoe = new Gson().fromJson(newMessage, Shoes.class);
 //        System.out.println(shoe);
         productService.insertProduct(s);
+
+        received++;
+        if(received % 1000 == 0){
+            System.out.println("No." + received + " the average time from producer to consumer is: " + (double)total_time / received);
+        }
     }
     public List<String> getWhite_messages() {
         return white_messages;

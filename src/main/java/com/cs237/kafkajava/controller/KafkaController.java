@@ -117,8 +117,8 @@ public class KafkaController {
     public void produce_skew(){
         int size = Grocery_map.size();
         int count = 0;
-        while(count < size){
-            long delay = (long)nextSkewedBoundedDouble(0, 10000, 1, 1);
+        while(count < 2 * size){
+            long delay = (long)nextSkewedBoundedDouble(0, 5000, 1, 1);
             timer.schedule(new Task(), delay);
             count++;
         }
@@ -126,7 +126,7 @@ public class KafkaController {
 
     @GetMapping("/kafka/history_product")
     public String history_product(@RequestParam String color) {
-        List<Shoes> shoesList =  productService.getColorProducts(color);
+        List<Shoes> shoesList = productService.getColorProducts(color);
         String shoes = new Gson().toJson(shoesList);
         return shoes;
     }
